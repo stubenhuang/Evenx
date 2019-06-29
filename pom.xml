@@ -10,7 +10,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>client</module>
-        <module>handler</module>
         <module>protocol</module>
         <module>serializer</module>
     </modules>
