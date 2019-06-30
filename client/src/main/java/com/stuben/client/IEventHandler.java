@@ -1,6 +1,6 @@
 package com.stuben.client;
 
-import com.stuben.event.BaseEvent;
+import com.stuben.event.protocol.BaseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;

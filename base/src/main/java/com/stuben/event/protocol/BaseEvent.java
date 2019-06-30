@@ -1,4 +1,4 @@
-package com.stuben.event;
+package com.stuben.event.protocol;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.context.ApplicationEvent;

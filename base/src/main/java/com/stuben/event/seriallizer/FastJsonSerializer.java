@@ -1,7 +1,7 @@
-package com.stuben.serializer;
+package com.stuben.event.seriallizer;
 
 import com.alibaba.fastjson.JSON;
-import com.stuben.event.BaseEvent;
+import com.stuben.event.protocol.BaseEvent;
 
 public class FastJsonSerializer implements ISerializer {
 

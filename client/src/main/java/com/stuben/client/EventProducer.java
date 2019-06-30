@@ -1,38 +1,50 @@
 package com.stuben.client;
 
-import com.stuben.event.BaseEvent;
-import com.stuben.event.EventDeclare;
-import com.stuben.serializer.FastJsonSerializer;
-import com.stuben.serializer.ISerializer;
+import com.stuben.event.constants.EnvironmentProperties;
+import com.stuben.event.protocol.BaseEvent;
+import com.stuben.event.protocol.EventDeclare;
+import com.stuben.event.seriallizer.FastJsonSerializer;
+import com.stuben.event.seriallizer.ISerializer;
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 public class EventProducer {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private ExecutorService executorService;
     private ApplicationContext applicationContext;
-    private String source;
     private DefaultMQProducer producer;
+    private String appName;
 
     private ThreadLocal<Set<String>> cycleEvents = ThreadLocal.withInitial(LinkedHashSet::new);//avoid cycle event
     private Map<Class, EventDeclare> declareCache = new ConcurrentHashMap<>();
     private Map<Class, ISerializer> serializerCache = new ConcurrentHashMap<>();
 
-    EventProducer(ExecutorService executorService, ApplicationContext applicationContext, String source,
-        String appName, String host, String port) {
-        this.executorService = executorService;
+    public EventProducer(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        this.source = source;
+
+        Environment environment = applicationContext.getEnvironment();
+
+        int threadNum = NumberUtils.toInt(environment.getProperty(EnvironmentProperties.THREAD_NUM), 5);
+        String appName = Optional.ofNullable(environment.getProperty(EnvironmentProperties.APP_NAME)).orElse("demo");
+        String host = Optional.ofNullable(environment.getProperty(EnvironmentProperties.MQ_HOST)).orElse("127.0.0.1");
+        String port = Optional.ofNullable(environment.getProperty(EnvironmentProperties.MQ_PORT)).orElse("9876");
+
+        this.executorService = Executors.newFixedThreadPool(threadNum);
+        this.appName = appName;
 
         this.producer = new DefaultMQProducer(appName);
         this.producer.setNamesrvAddr(host + ":" + port);
@@ -105,7 +117,7 @@ public class EventProducer {
                     }
 
                     @Override public String source() {
-                        return source;
+                        return appName;
                     }
 
                     @Override public String name() {

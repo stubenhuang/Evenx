@@ -1,6 +1,6 @@
-package com.stuben.serializer;
+package com.stuben.event.seriallizer;
 
-import com.stuben.event.BaseEvent;
+import com.stuben.event.protocol.BaseEvent;
 
 public interface ISerializer {
 

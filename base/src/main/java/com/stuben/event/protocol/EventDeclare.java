@@ -1,7 +1,7 @@
-package com.stuben.event;
+package com.stuben.event.protocol;
 
-import com.stuben.serializer.FastJsonSerializer;
-import com.stuben.serializer.ISerializer;
+import com.stuben.event.seriallizer.FastJsonSerializer;
+import com.stuben.event.seriallizer.ISerializer;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

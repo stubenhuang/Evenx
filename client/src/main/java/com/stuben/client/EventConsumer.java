@@ -1,9 +1,11 @@
 package com.stuben.client;
 
 import com.alibaba.fastjson.JSON;
+import com.stuben.event.constants.EnvironmentProperties;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -13,6 +15,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 public class EventConsumer {
     private static final Logger logger = LoggerFactory.getLogger(EventConsumer.class);
@@ -20,8 +23,14 @@ public class EventConsumer {
     private ApplicationContext applicationContext;
     private DefaultMQPushConsumer mqConsumer;
 
-    public EventConsumer(ApplicationContext applicationContext, String host, String port, String appName) {
+    public EventConsumer(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+
+        Environment environment = applicationContext.getEnvironment();
+
+        String appName = Optional.ofNullable(environment.getProperty(EnvironmentProperties.APP_NAME)).orElse("demo");
+        String host = Optional.ofNullable(environment.getProperty(EnvironmentProperties.MQ_HOST)).orElse("127.0.0.1");
+        String port = Optional.ofNullable(environment.getProperty(EnvironmentProperties.MQ_PORT)).orElse("9876");
 
         DefaultMQPushConsumer mqConsumer = new DefaultMQPushConsumer(appName);
         mqConsumer.setNamesrvAddr(host + ":" + port);

@@ -14,15 +14,9 @@
     <dependencies>
         <dependency>
             <groupId>com.stuben</groupId>
-            <artifactId>protocol</artifactId>
+            <artifactId>base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-client</artifactId>
-            <version>${rocketmq-client}</version>
         </dependency>
 
     </dependencies>
