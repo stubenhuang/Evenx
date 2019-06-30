@@ -36,3 +36,9 @@ public class DemoController{
     }
 }
 ```
+
+#### TODO
+1. Event doesn`t use 'abstract class' to limit . Can it use annotation?
+2. Can use annotation to produce event after a method finish?
+3. Can consumer be unified whether local or remote ? Just use @EventControll . 
+4. Rocketmq is a persistent message system so it is too heavy. Can i just use a simple route table to share my event? 
