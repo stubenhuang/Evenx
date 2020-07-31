@@ -1,7 +1,7 @@
-package com.stuben.event.protocol;
+package com.stuben.evenx.protocol;
 
-import com.stuben.event.seriallizer.FastJsonSerializer;
-import com.stuben.event.seriallizer.ISerializer;
+import com.stuben.evenx.seriallizer.FastJsonSerializer;
+import com.stuben.evenx.seriallizer.ISerializer;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EventDeclare {
+public @interface EvenxDeclare {
     /**
      * 是否可以分享
      */

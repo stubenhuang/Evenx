@@ -1,44 +1,59 @@
-## EVENT DEMO (Project name isn`t finished)
+## EVENX
 
-> Highly abstracted event system which can make business code easy.
+> Highly abstracted event system which can make coding easy.
 
 #### Quick start
 
-1. Set properties( See : com.stuben.event.constants.EnvironmentProperties) , and then load them into spring application context.
-
-2. New a event
+1. New a evenx
 ``` java
-public class DemoEvent extends BaseEvent{
+@EvenxDeclare // it isn`t necessary
+public class DemoEvenx extends BaseEvenx{
     //something
 }
-
 ```
 
-2. Use producer
+2. Use consumer
 ``` java
-EventProducer producer = new EventProducer(applicationContext);
-producer.asyncPost(new DemoEvent());
-```
-
-3. Startup consumer
-``` java
-EventConsumer consumer = new EventConsumer(applicationContext);
-consumer.startup();
-```
-
-4. Use consumer
-``` java
-@EventController("demo") // producer app name
+@EvenxConsumerController("demo") // producer app name. If value isn`t set , evenx will use local app name.
 public class DemoController{
-    @EventMapping("xxx.DemoEvent") // event class full name
-    public void demo(String demoEventJSON){
+    @EvenxConsumerMapping("xxx.DemoEvenx") // evenx class full name. If value isn`t set , evenx will use param class name.
+    public void demo(String demoEvenxJSON){
         // do something
     }
 }
 ```
 
+3. Startup consumer
+``` java
+EvenxConsumerConfig consumerConfig = new EvenxConsumerConfig();
+consumerConfig.setAppName("local");
+consumerConfig.setMqHost("127.0.0.1");
+consumerConfig.setMqPort(9876);
+consumerConfig.setThreadNum(5);
+consumerConfig.setScanPackage("com.stuben.evenx.consumer.LocalConsumerAction");
+
+EvenxConsumerLauncher consumerLauncher = new EvenxConsumerLauncher();
+consumerLauncher.startup();
+```
+
+4. Use producer
+``` java
+EvenxProducerConfig producerConfig = new EvenxProducerConfig();
+producerConfig.setAppName("local");
+producerConfig.setMqHost("127.0.0.1");
+producerConfig.setMqPort(9876);
+producerConfig.setThreadNum(5);
+
+EvenxProducer producer = new EvenxProducer(producerConfig);
+producer.produce(new DemoEvenx());
+```
+
+
+
 #### TODO
-1. Event doesn`t use 'abstract class' to limit . Can it use annotation?
-2. Can use annotation to produce event after a method finish?
-3. Can consumer be unified whether local or remote ? Just use @EventControll . 
-4. Rocketmq is a persistent message system so it is too heavy. Can i just use a simple route table to share my event? 
+1. Evenx doesn`t use 'abstract class' to limit . Can it use annotation?
+2. Can use annotation to produce evenx after a method finish?
+3. Rocketmq is a persistent message system so it is too heavy. Can i just use a simple route table to share evenx? 
+4. Finish the test case.
+5. Use remote seriallizer.
+6. Mq producer and consumer init outside.

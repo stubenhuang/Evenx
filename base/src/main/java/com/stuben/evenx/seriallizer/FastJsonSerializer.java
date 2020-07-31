@@ -1,12 +1,12 @@
-package com.stuben.event.seriallizer;
+package com.stuben.evenx.seriallizer;
 
 import com.alibaba.fastjson.JSON;
-import com.stuben.event.protocol.BaseEvent;
+import com.stuben.evenx.protocol.BaseEvenx;
 
 public class FastJsonSerializer implements ISerializer {
 
-    @Override public byte[] encode(BaseEvent event) {
-        return JSON.toJSONBytes(event);
+    @Override public byte[] encode(BaseEvenx evenx) {
+        return JSON.toJSONBytes(evenx);
     }
 
     @Override public <T> T decode(byte[] data, Class<T> targetClass) {
