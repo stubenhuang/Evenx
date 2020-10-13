@@ -18,7 +18,7 @@
         <reflections>0.9.11</reflections>
         <slf4j-api>1.7.26</slf4j-api>
         <rocketmq-client>4.5.1</rocketmq-client>
-        <junit>4.12</junit>
+        <junit>4.13.1</junit>
     </properties>
 
     <dependencies>
